@@ -21,30 +21,65 @@
 #include <iostream>
 #include <cstring> // strlen(), strcpy()
 
-using namespace std;
-
 // Global Constants and Structures:
 struct stringy
 {
-	char* str; //points to a strong
+	char* p_c_str; //points to a string
 	int count; //length of string not counting '\0'
 };
 
 // Prototypes:
-// set(), show(), and show()
+
+void show(const stringy& str, int n = 1);
+template <typename T>
+void show(const T& input, int n = 1);
+void set(stringy& str, char* testing);
 
 int main() 
 {
 	stringy beany;
 	char testing[] = "Reality isn't what it used to be.";
-	set(beany, testing); // first argument is a ref, allocates space to hold
-	// copy of testing. set str member of beany to point to the new block, copies
-	// testing to new block, and sets count member of beany.
-	show(beany); // prints member of string once
-	show(beany, 2); // prints member of string twice
+	set(beany, testing);
+	show(beany);
+	show(beany, 2);
 	testing[0] = 'D';
 	testing[1] = 'u';
 	show(testing);
 	show(testing, 3);
 	show("Done!");
+}
+
+
+// sets a stringy structures string and count
+// Param: stringy& str, char testing[]
+// TODO: solve for usign strcpy vs strcpy_s 
+void set(stringy& str, char* testing)
+{
+	str.count = strlen(testing);
+	str.p_c_str = new char[str.count + 1];
+	strcpy_s(str.p_c_str, str.count + 1, testing);
+}
+
+// Prints the string in a stringy structure n times.
+// Default: n = 1
+// Param: stringy & str, int n
+void show(const stringy& str, int n)
+{
+
+	for (int i = 0; i < n; i++)
+	{
+		std::cout << str.p_c_str << "\n";
+	}
+}
+
+// Prints the string passed n times
+// Default: n = 1
+// Param: T* input, int n
+template <typename T>
+void show(const T& input, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		std::cout << input << "\n";
+	}
 }
